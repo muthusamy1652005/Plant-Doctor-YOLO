@@ -294,7 +294,7 @@ elif page == "🚀 Live Simulation":
                 else:
                     with st.spinner("AI மருத்துவர் பரிசோதிக்கிறார்..."):
                         # Threshold 50%
-                        results = model(image, conf=0.5)
+                        results = model(image, conf=0.5, max_det=1)
                         
                         if len(results[0].boxes) == 0:
                             st.warning("⚠️ எந்த நோயும் கண்டுபிடிக்கப்படவில்லை (Healthy or Unknown Leaf)")
@@ -391,6 +391,7 @@ elif page == "🚀 Live Simulation":
                                     else:
                                         st.write(f"🔍 **Detected:** {final_name} ({conf:.2f}%)")
                                         st.info("விவரங்கள் விரைவில் இணைக்கப்படும்.")
+
 
 
 
