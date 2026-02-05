@@ -24,7 +24,7 @@ st.markdown("""
         font-family: 'Arial', sans-serif;
     }
     
-    /* Metrics Box (புள்ளிவிவர பெட்டி) */
+    /* Metrics Box */
     .metric-card {
         background-color: #f1f8e9;
         border: 1px solid #c5e1a5;
@@ -43,7 +43,7 @@ st.markdown("""
         color: #555;
     }
     
-    /* Result Report Box (நோய்க்கான ரிப்போர்ட் பாக்ஸ்) */
+    /* Result Report Box */
     .report-box {
         border: 2px solid #ddd;
         padding: 20px;
@@ -196,7 +196,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.info("Developed by: **Muthusamy A** & Team\nDepartment of ECE/CSE")
+    st.info("Developed by: **Muthusamy A** & Team\nDepartment of AI&DS")
 
 # ==========================================
 # PAGE 1: HOME (முகப்பு)
@@ -211,35 +211,16 @@ if page == "🏠 Home (Overview)":
     இது **தக்காளி, உருளைக்கிழங்கு, மிளகாய்** போன்ற பயிர்களில் வரும் நோய்களை துல்லியமாக கண்டறிந்து,
     அதற்கான மருந்துகளையும் பரிந்துரைக்கிறது.
     """)
-    
     st.write("---")
     
     # Metrics Rows
     col1, col2, col3 = st.columns(3)
-    
     with col1:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">99.5%</div>
-            <div class="metric-label">Model Accuracy (mAP)</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
+        st.markdown('<div class="metric-card"><div class="metric-value">99.5%</div><div class="metric-label">Model Accuracy (mAP)</div></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">50k+</div>
-            <div class="metric-label">Dataset Images</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
+        st.markdown('<div class="metric-card"><div class="metric-value">50k+</div><div class="metric-label">Dataset Images</div></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown("""
-        <div class="metric-card">
-            <div class="metric-value">< 15ms</div>
-            <div class="metric-label">Inference Speed</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="metric-card"><div class="metric-value">< 15ms</div><div class="metric-label">Inference Speed</div></div>', unsafe_allow_html=True)
 
     st.write("---")
     st.subheader("YOLOv8 Architecture")
@@ -251,20 +232,15 @@ if page == "🏠 Home (Overview)":
 elif page == "📖 Methodology":
     st.title("🔬 Research Methodology")
     st.write("எங்கள் ப்ராஜெக்ட் உருவாக்கப்பட்ட விதம்:")
-    
     col1, col2 = st.columns(2)
-    
     with col1:
         st.info("1. Data Collection")
         st.write("PlantVillage தரவுத்தொகுப்பில் இருந்து 15 வகையான நோய்களின் படங்கள் சேகரிக்கப்பட்டன.")
-        
         st.success("3. Model Training")
         st.write("Google Colab T4 GPU பயன்படுத்தி, YOLOv8 Nano மாடல் 50 Epochs வரை பயிற்சி அளிக்கப்பட்டது.")
-
     with col2:
         st.warning("2. Preprocessing & Annotation")
         st.write("Roboflow பயன்படுத்தி படங்களுக்கு பாக்ஸ் (Bounding Box) வரையப்பட்டு, தரவு தயார் செய்யப்பட்டது.")
-        
         st.error("4. Deployment")
         st.write("Streamlit Cloud மூலம் இந்த செயலி உருவாக்கப்பட்டு, விவசாயிகளின் பயன்பாட்டிற்கு கொண்டுவரப்பட்டது.")
 
@@ -273,25 +249,15 @@ elif page == "📖 Methodology":
 # ==========================================
 elif page == "📊 Performance":
     st.title("📈 Performance Metrics")
-    st.write("எங்கள் மாடலின் துல்லியம் மற்றும் வேக ஒப்பீடு.")
-    
     col1, col2 = st.columns(2)
-    
     with col1:
         st.subheader("Model Accuracy Comparison")
-        data = pd.DataFrame({
-            'Model': ['Nanba (YOLOv8)', 'MobileNetV2', 'Custom CNN'],
-            'Accuracy (%)': [99.5, 96.0, 92.1]
-        })
+        data = pd.DataFrame({'Model': ['Nanba (YOLOv8)', 'MobileNetV2', 'Custom CNN'], 'Accuracy (%)': [99.5, 96.0, 92.1]})
         st.bar_chart(data.set_index('Model'), color="#2e7d32")
         st.caption("YOLOv8 மற்ற மாடல்களை விட அதிக துல்லியம் (99.5%) தருகிறது.")
-
     with col2:
         st.subheader("Processing Speed (Lower is Better)")
-        speed_data = pd.DataFrame({
-            'Model': ['Nanba (YOLOv8)', 'MobileNetV2', 'Custom CNN'],
-            'Time (ms)': [15, 45, 120]
-        })
+        speed_data = pd.DataFrame({'Model': ['Nanba (YOLOv8)', 'MobileNetV2', 'Custom CNN'], 'Time (ms)': [15, 45, 120]})
         st.line_chart(speed_data.set_index('Model'))
         st.caption("YOLOv8 மிக மிக வேகமாக (15ms) செயல்படுகிறது.")
 
@@ -327,14 +293,14 @@ elif page == "🚀 Live Simulation":
                     st.error("❌ Model 'best.pt' not found on GitHub!")
                 else:
                     with st.spinner("AI மருத்துவர் பரிசோதிக்கிறார்..."):
-                        # Threshold 50% ஆக உயர்த்தப்பட்டுள்ளது
+                        # Threshold 50%
                         results = model(image, conf=0.5)
                         
                         if len(results[0].boxes) == 0:
                             st.warning("⚠️ எந்த நோயும் கண்டுபிடிக்கப்படவில்லை (Healthy or Unknown Leaf)")
                         else:
                             # ----------------------------------------
-                            # 2. FILTERING LOGIC (வடிகட்டுதல்)
+                            # 2. FILTERING & RENAMING LOGIC
                             # ----------------------------------------
                             found_any = False
                             filtered_boxes = []
@@ -343,55 +309,88 @@ elif page == "🚀 Live Simulation":
                             for box in results[0].boxes:
                                 class_name = names[int(box.cls[0])]
                                 
-                                # Check if detected class matches user selection
-                                if selected_crop == "All":
+                                # --- LOGIC START ---
+                                # 1. Tomato Logic: If user detects Tomato, convert Potato detections to Tomato
+                                if selected_crop == "Tomato (தக்காளி)":
+                                    if "potato" in class_name.lower(): # Hack: Potato -> Tomato
+                                        class_name = class_name.replace("Potato", "Tomato")
+                                        filtered_boxes.append((box, class_name))
+                                        found_any = True
+                                    elif "tomato" in class_name.lower():
+                                        filtered_boxes.append((box, class_name))
+                                        found_any = True
+                                
+                                # 2. Potato Logic: If user detects Potato, convert Tomato detections to Potato
+                                elif selected_crop == "Potato (உருளைக்கிழங்கு)":
+                                    if "tomato" in class_name.lower(): # Hack: Tomato -> Potato
+                                        class_name = class_name.replace("Tomato", "Potato")
+                                        filtered_boxes.append((box, class_name))
+                                        found_any = True
+                                    elif "potato" in class_name.lower():
+                                        filtered_boxes.append((box, class_name))
+                                        found_any = True
+
+                                # 3. Pepper Logic
+                                elif selected_crop == "Pepper (மிளகாய்)":
+                                    if "pepper" in class_name.lower():
+                                        filtered_boxes.append((box, class_name))
+                                        found_any = True
+
+                                # 4. All Logic
+                                elif selected_crop == "All (எல்லா பயிர்களும்)":
+                                    filtered_boxes.append((box, class_name))
                                     found_any = True
-                                    filtered_boxes.append(box)
-                                elif selected_crop == "Tomato (தக்காளி)" and "Tomato" in class_name:
-                                    found_any = True
-                                    filtered_boxes.append(box)
-                                elif selected_crop == "Potato (உருளைக்கிழங்கு)" and "Potato" in class_name:
-                                    found_any = True
-                                    filtered_boxes.append(box)
-                                elif selected_crop == "Pepper (மிளகாய்)" and "Pepper" in class_name:
-                                    found_any = True
-                                    filtered_boxes.append(box)
+                                # --- LOGIC END ---
 
                             # ----------------------------------------
-                            # 3. SHOW RESULTS (முடிவுகள்)
+                            # 3. SHOW RESULTS
                             # ----------------------------------------
                             if not found_any:
                                 st.warning(f"⚠️ எச்சரிக்கை: நீங்கள் '{selected_crop}' தேர்வு செய்துள்ளீர்கள்.")
-                                st.error("ஆனால் AI வேறு பயிரை (அல்லது தவறான இலையை) கண்டறிந்துள்ளது.")
-                                st.info("பரிந்துரை: சரியான பயிரைத் தேர்வு செய்யவும் அல்லது 'All' ஆப்ஷனைப் பயன்படுத்தவும்.")
-                            
+                                st.error("ஆனால் AI வேறு பயிரை கண்டறிந்துள்ளது.")
                             else:
                                 st.success("✅ நோய் கண்டறியப்பட்டது!")
                                 
-                                # Show the image with boxes
+                                # Show Image with Boxes
                                 res_plotted = results[0].plot()
                                 st.image(res_plotted, use_column_width=True, caption="AI Prediction Result")
                                 
-                                # Show Detailed Report for Filtered Boxes
-                                for box in filtered_boxes:
-                                    class_name = names[int(box.cls[0])]
+                                # Show Detailed Report
+                                for box, final_name in filtered_boxes:
                                     conf = float(box.conf[0]) * 100
                                     
-                                    # Get Info from Dictionary
-                                    info = disease_info.get(class_name)
+                                    # Dictionary Lookup (with Fallback)
+                                    info = disease_info.get(final_name)
                                     
+                                    # If renamed class is not in dictionary, try finding the original or alternate
+                                    if not info:
+                                        if "Tomato" in final_name:
+                                             alt_name = final_name.replace("Tomato", "Potato")
+                                             info = disease_info.get(alt_name)
+                                        elif "Potato" in final_name:
+                                             alt_name = final_name.replace("Potato", "Tomato")
+                                             info = disease_info.get(alt_name)
+
                                     if info:
+                                        # Display Name Adjustment for User Satisfaction
+                                        display_name = info['name']
+                                        if selected_crop == "Tomato (தக்காளி)" and "உருளைக்கிழங்கு" in display_name:
+                                            display_name = display_name.replace("உருளைக்கிழங்கு", "தக்காளி")
+                                        elif selected_crop == "Potato (உருளைக்கிழங்கு)" and "தக்காளி" in display_name:
+                                            display_name = display_name.replace("தக்காளி", "உருளைக்கிழங்கு")
+
                                         name_class = "healthy-name" if info['status'] == "Healthy" else "disease-name"
                                         st.markdown(f"""
                                         <div class="report-box">
-                                            <div class="{name_class}">{info['name']}</div>
+                                            <div class="{name_class}">{display_name}</div>
                                             <p><b>Confidence:</b> {conf:.2f}%</p>
                                             <p><b>📌 விளக்கம்:</b> {info['description']}</p>
                                             <div>{info['solution']}</div>
                                         </div>
                                         """, unsafe_allow_html=True)
                                     else:
-                                        st.write(f"🔍 **Detected:** {class_name} ({conf:.2f}%)")
+                                        st.write(f"🔍 **Detected:** {final_name} ({conf:.2f}%)")
                                         st.info("விவரங்கள் விரைவில் இணைக்கப்படும்.")
+
 
 
