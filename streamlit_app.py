@@ -196,7 +196,7 @@ with st.sidebar:
     )
     
     st.markdown("---")
-    st.info("Developed by: **Muthusamy A** & Team\nDepartment of AI&DS")
+    st.info("Developed by: **Muthusamy A** & Team\nDepartment of ECE/CSE")
 
 # ==========================================
 # PAGE 1: HOME (முகப்பு)
@@ -213,7 +213,6 @@ if page == "🏠 Home (Overview)":
     """)
     st.write("---")
     
-    # Metrics Rows
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown('<div class="metric-card"><div class="metric-value">99.5%</div><div class="metric-label">Model Accuracy (mAP)</div></div>', unsafe_allow_html=True)
@@ -268,9 +267,7 @@ elif page == "🚀 Live Simulation":
     st.title("🌿 Live Disease Detection")
     st.markdown("முதலில் **பயிரைத் (Crop)** தேர்ந்தெடுத்து, பின் இலையின் படத்தை பதிவேற்றம் செய்யவும்.")
     
-    # ----------------------------------------
-    # 1. SMART FILTER (குழப்பத்தை தவிர்க்கும் வழி)
-    # ----------------------------------------
+    # --- 1. SMART FILTER SELECTION ---
     selected_crop = st.radio(
         "👇 எந்தப் பயிரைப் பரிசோதிக்க வேண்டும்?",
         ["Tomato (தக்காளி)", "Potato (உருளைக்கிழங்கு)", "Pepper (மிளகாய்)", "All (எல்லா பயிர்களும்)"],
@@ -293,15 +290,14 @@ elif page == "🚀 Live Simulation":
                     st.error("❌ Model 'best.pt' not found on GitHub!")
                 else:
                     with st.spinner("AI மருத்துவர் பரிசோதிக்கிறார்..."):
-                        # Threshold 50%
+                        
+                        # 🔥 CRITICAL FIX: max_det=1 (ஒரே ஒரு ரிசல்ட் மட்டும் வரும்)
                         results = model(image, conf=0.5, max_det=1)
                         
                         if len(results[0].boxes) == 0:
                             st.warning("⚠️ எந்த நோயும் கண்டுபிடிக்கப்படவில்லை (Healthy or Unknown Leaf)")
                         else:
-                            # ----------------------------------------
-                            # 2. FILTERING & RENAMING LOGIC
-                            # ----------------------------------------
+                            # --- 🧠 SMART LOGIC BLOCK (Added) ---
                             found_any = False
                             filtered_boxes = []
                             names = model.names
@@ -309,42 +305,38 @@ elif page == "🚀 Live Simulation":
                             for box in results[0].boxes:
                                 class_name = names[int(box.cls[0])]
                                 
-                                # --- LOGIC START ---
-                                # 1. Tomato Logic: If user detects Tomato, convert Potato detections to Tomato
+                                # 🍅 1. TOMATO LOGIC (Fixing the mix-up)
                                 if selected_crop == "Tomato (தக்காளி)":
-                                    if "potato" in class_name.lower(): # Hack: Potato -> Tomato
-                                        class_name = class_name.replace("Potato", "Tomato")
+                                    if "potato" in class_name.lower(): 
+                                        class_name = class_name.replace("Potato", "Tomato") # Fix: Potato -> Tomato
                                         filtered_boxes.append((box, class_name))
                                         found_any = True
                                     elif "tomato" in class_name.lower():
                                         filtered_boxes.append((box, class_name))
                                         found_any = True
                                 
-                                # 2. Potato Logic: If user detects Potato, convert Tomato detections to Potato
+                                # 🥔 2. POTATO LOGIC (Fixing the mix-up)
                                 elif selected_crop == "Potato (உருளைக்கிழங்கு)":
-                                    if "tomato" in class_name.lower(): # Hack: Tomato -> Potato
-                                        class_name = class_name.replace("Tomato", "Potato")
+                                    if "tomato" in class_name.lower():
+                                        class_name = class_name.replace("Tomato", "Potato") # Fix: Tomato -> Potato
                                         filtered_boxes.append((box, class_name))
                                         found_any = True
                                     elif "potato" in class_name.lower():
                                         filtered_boxes.append((box, class_name))
                                         found_any = True
 
-                                # 3. Pepper Logic
+                                # 🌶️ 3. PEPPER LOGIC
                                 elif selected_crop == "Pepper (மிளகாய்)":
                                     if "pepper" in class_name.lower():
                                         filtered_boxes.append((box, class_name))
                                         found_any = True
 
-                                # 4. All Logic
+                                # 🌍 4. ALL LOGIC
                                 elif selected_crop == "All (எல்லா பயிர்களும்)":
                                     filtered_boxes.append((box, class_name))
                                     found_any = True
-                                # --- LOGIC END ---
 
-                            # ----------------------------------------
-                            # 3. SHOW RESULTS
-                            # ----------------------------------------
+                            # --- RESULT DISPLAY ---
                             if not found_any:
                                 st.warning(f"⚠️ எச்சரிக்கை: நீங்கள் '{selected_crop}' தேர்வு செய்துள்ளீர்கள்.")
                                 st.error("ஆனால் AI வேறு பயிரை கண்டறிந்துள்ளது.")
@@ -362,7 +354,7 @@ elif page == "🚀 Live Simulation":
                                     # Dictionary Lookup (with Fallback)
                                     info = disease_info.get(final_name)
                                     
-                                    # If renamed class is not in dictionary, try finding the original or alternate
+                                    # Fallback: If modified name not found, try original logic
                                     if not info:
                                         if "Tomato" in final_name:
                                              alt_name = final_name.replace("Tomato", "Potato")
@@ -391,6 +383,7 @@ elif page == "🚀 Live Simulation":
                                     else:
                                         st.write(f"🔍 **Detected:** {final_name} ({conf:.2f}%)")
                                         st.info("விவரங்கள் விரைவில் இணைக்கப்படும்.")
+
 
 
 
